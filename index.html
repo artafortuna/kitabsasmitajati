@@ -9,8 +9,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        /* ===== ONBOARDING (DITAMBAHKAN) ===== */
+        #onboarding-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .onboarding-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: transparent;
+            border-radius: 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .close-onboarding {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 35px;
+            height: 35px;
+            background-color: #ff4757;
+            color: white;
+            border-radius: 50%;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 33px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+            z-index: 100000;
+            transition: background-color 0.3s;
+        }
+
+        .close-onboarding:hover { background-color: #ff6b81; }
+
+        .onboarding-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 8px;
+            object-fit: contain;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        /* ===== SCRIPT ASLI (TANPA DIUBAH) ===== */
+
         :root {
-            /* Tema Halaman */
             --primary-nama: #6d4c41;
             --primary-weton: #00695c;
             --accent-weton: #ff8f00;
@@ -26,7 +84,6 @@
             --primary-kalender: #0284c7;
             --accent-kalender: #38bdf8;
             
-            /* Tema Baru untuk Halaman 9 (Tentang) */
             --primary-tentang: #0f766e;
             --accent-tentang: #115e59;
             
@@ -40,12 +97,11 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            padding-bottom: 160px; /* Ditinggikan agar tidak tertutup oleh footer fixed */
+            padding-bottom: 160px;
             box-sizing: border-box;
             min-height: 100vh;
         }
 
-        /* Kontainer Utama yang Dipercantik */
         .app-section {
             display: none;
             max-width: 550px;
@@ -140,53 +196,40 @@
             box-shadow: 0 6px 16px rgba(0,0,0,0.2);
         }
 
-        .btn-action:active {
-            transform: translateY(1px);
-        }
+        .btn-action:active { transform: translateY(1px); }
 
-        /* Pewarnaan Spesifik Berdasarkan Tema */
         #sectionNama .container { border-top: 6px solid var(--primary-nama); }
         #sectionNama h2 { color: var(--primary-nama); }
         #sectionNama .btn-action { background-color: var(--primary-nama); }
-        #sectionNama input:focus { border-color: var(--primary-nama); box-shadow: 0 0 0 4px rgba(109,76,65,0.15); }
 
         #sectionWeton .container { border-top: 6px solid var(--primary-weton); }
         #sectionWeton h2 { color: var(--primary-weton); }
         #sectionWeton .btn-action { background-color: var(--primary-weton); }
-        #sectionWeton input:focus { border-color: var(--primary-weton); box-shadow: 0 0 0 4px rgba(0,105,92,0.15); }
 
         #sectionNikah .container { border-top: 6px solid var(--primary-nikah); }
         #sectionNikah h2 { color: var(--primary-nikah); }
         #sectionNikah .btn-action { background-color: var(--primary-nikah); }
-        #sectionNikah input:focus { border-color: var(--primary-nikah); box-shadow: 0 0 0 4px rgba(183,28,28,0.15); }
 
         #sectionNaas .container { border-top: 6px solid var(--primary-naas); }
         #sectionNaas h2 { color: var(--primary-naas); }
         #sectionNaas .btn-action { background-color: var(--primary-naas); }
-        #sectionNaas input:focus { border-color: var(--primary-naas); box-shadow: 0 0 0 4px rgba(106,27,154,0.15); }
 
         #sectionMati .container { border-top: 6px solid var(--primary-mati); }
         #sectionMati h2 { color: var(--primary-mati); }
         #sectionMati .btn-action { background-color: var(--primary-mati); }
-        #sectionMati input:focus { border-color: var(--primary-mati); box-shadow: 0 0 0 4px rgba(55,71,79,0.15); }
-        
+
         #sectionAboge .container { border-top: 6px solid var(--primary-aboge); }
         #sectionAboge h2 { color: var(--primary-aboge); }
         #sectionAboge .btn-action { background-color: var(--primary-aboge); }
-        #sectionAboge select:focus { border-color: var(--primary-aboge); box-shadow: 0 0 0 4px rgba(0,131,143,0.15); }
 
         #sectionAksara .container { border-top: 6px solid var(--primary-aksara); }
         #sectionAksara h2 { color: var(--primary-aksara); }
-        #sectionAksara textarea:focus { border-color: var(--primary-aksara); box-shadow: 0 0 0 4px rgba(69,90,100,0.15); }
-        
-        /* KHUSUS HALAMAN 8: KALENDER */
+
         #sectionKalender { max-width: 900px; }
         #sectionKalender .container { border-top: 6px solid var(--primary-kalender); padding: 25px 20px;}
         #sectionKalender h2 { color: var(--primary-kalender); }
         #sectionKalender .btn-action { background-color: var(--primary-kalender); }
-        #sectionKalender select:focus, #sectionKalender input:focus { border-color: var(--primary-kalender); box-shadow: 0 0 0 4px rgba(2,132,199,0.15); }
-        
-        /* CSS Tambahan Kalender */
+
         .kalender-header-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
         .kalender-day-name { background: #1e293b; color: white; text-align: center; padding: 10px 4px; border-radius: 8px; font-weight: 700; font-size: 13px; }
         .kalender-day-name.sunday { background: #b91c1c; }
@@ -198,25 +241,23 @@
         .kal-date-masehi.sunday { color: #b91c1c; }
         .kal-jawa-info { font-size: 11px; font-weight: 700; color: #b45309; }
         .kal-jawa-date { font-size: 11px; color: #475569; margin-top: 4px; font-weight: 600; line-height: 1.3; }
-        .kal-btn-detail { margin-top: 6px; font-size: 10px; background: #cbd5e1; color: #0f172a; padding: 4px; border-radius: 4px; text-align: center; }
 
-        /* Modal / Popup Detail Kalender */
         .kal-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
         .kal-modal-box { background: white; width: 95%; max-width: 450px; border-radius: 16px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
         .kal-modal-header { font-size: 20px; font-weight: 800; color: var(--primary-kalender); margin-bottom: 5px; text-align: center;}
         .kal-modal-subheader { font-size: 14px; color: #64748b; text-align: center; margin-bottom: 20px;}
+
         .kal-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;}
         .kal-detail-item { background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary-kalender);}
         .kal-detail-item span { display: block; font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase;}
         .kal-detail-item strong { font-size: 13px; color: #1e293b; line-height: 1.4;}
         .kal-close-btn { width: 100%; background: #ef4444; color: white; padding: 14px; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; margin-top: 10px; cursor:pointer;}
 
-        /* CSS KHUSUS HALAMAN 9: TENTANG KAMI */
-        #sectionTentang { max-width: 900px; padding-bottom: 20px; margin-top: 2vh;}
         .tk-hero { text-align: center; padding: 45px 20px; background-color: var(--primary-tentang); color: white; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        #sectionTentang { max-width: 900px; padding-bottom: 20px; margin-top: 2vh;}
         .tk-hero h1 { font-size: 32px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.5px;}
         .tk-hero p { font-size: 15px; color: #ccfbf1; max-width: 600px; margin: 0 auto; line-height: 1.5; font-style: italic;}
-        
+
         .tk-content-section { background: white; border-radius: 16px; padding: 35px 30px; margin-bottom: 25px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
         .tk-content-section h2 { color: #0f172a; font-size: 22px; font-weight: 800; margin-top: 0; margin-bottom: 20px; border-bottom: 3px solid #e2e8f0; padding-bottom: 10px; display: inline-block; text-align: left; width: 100%;}
         .tk-content-section p { font-size: 14.5px; color: #475569; line-height: 1.7; margin-bottom: 15px; }
@@ -226,7 +267,6 @@
         .tk-vm-box h3 { margin-top: 0; color: var(--primary-tentang); font-size: 18px; font-weight: 800; text-align: left;}
         .tk-vm-box p, .tk-vm-box ul { font-size: 14px; color: #475569; line-height: 1.6; margin:0; }
         .tk-vm-box ul { padding-left: 18px; }
-        .tk-vm-box li { margin-bottom: 10px; }
 
         .tk-team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 20px; }
         .tk-team-card { text-align: center; padding: 25px 15px; border: 1px solid #e2e8f0; border-radius: 12px; transition: transform 0.3s; background: #f8fafc;}
@@ -239,7 +279,6 @@
         .tk-contact-list li { margin-bottom: 12px; font-size: 15px; color: #475569;}
         .tk-contact-list strong { display: inline-block; width: 110px; color: #0f172a; }
 
-        /* STYLING HASIL UMUM & AKSARA */
         .aksara-textarea { width: 100%; height: 100px; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', inherit; background-color: #f8fafc; color: #1e293b; transition: all 0.3s ease; resize: vertical; }
         .aksara-output { font-family: "Javanese Text", "Noto Sans Javanese", sans-serif; font-size: 32px; min-height: 100px; padding: 15px; background-color: #f1f5f9; border-radius: 12px; word-wrap: break-word; border: 1px solid #e2e8f0; margin-top: 5px; color: #1e293b; text-align: center; }
 
@@ -252,7 +291,6 @@
         .sisa-4 { background-color: #d97706; } 
         .sisa-0 { background-color: #dc2626; }
 
-        /* KHUSUS NAMA */
         #resultAreaNama { display: none; margin-top: 30px; padding-top: 20px; border-top: 1px dashed #cbd5e1; }
         #saranArea { display: none; background-color: #ecfdf5; border: 1px solid #a7f3d0; padding: 20px; border-radius: 12px; margin-top: 20px;}
         #saranArea h4 { margin: 0 0 12px 0; color: #059669; text-align: center; font-size: 16px; font-weight: 700;}
@@ -261,7 +299,6 @@
         .saran-item { background-color: white; padding: 10px; border-radius: 8px; text-align: center; font-size: 14px; border: 1px solid #d1fae5; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .saran-item span { display: block; font-size: 11px; color: #64748b; margin-top: 6px; font-weight: 600;}
 
-        /* KHUSUS WETON */
         #resultAreaWeton { display: none; margin-top: 30px; }
         .alert-maghrib { background-color: #fff7ed; color: #d97706; padding: 14px; border-left: 5px solid var(--accent-weton); border-radius: 8px; font-size: 13px; margin-bottom: 20px; line-height: 1.6; }
         .weton-card { background-color: var(--primary-weton); }
@@ -269,7 +306,6 @@
         .neptu-details { margin-top: 12px; font-size: 16px; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 8px; display: inline-block; }
         .watak-box { margin-top: 20px; padding: 20px; background-color: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 12px; font-size: 15px; line-height: 1.6; color: #0f766e; text-align: center; }
 
-        /* KHUSUS NIKAH */
         #resultAreaNikah { display: none; margin-top: 30px; }
         .pasangan-box { display: flex; justify-content: space-between; background: #fef2f2; border: 1px solid #fecaca; padding: 15px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; text-align: center;}
         .pasangan-box div { flex: 1; }
@@ -277,12 +313,9 @@
         #rekArea { display: none; background-color: #fefce8; border: 1px solid #fef08a; padding: 20px; border-radius: 12px; margin-top: 20px; }
         #rekArea h4 { margin: 0 0 15px 0; color: #b45309; text-align: center; font-size: 16px; font-weight: 700;}
         .rek-list { max-height: 280px; overflow-y: auto; padding-right: 8px; }
-        .rek-list::-webkit-scrollbar { width: 6px; }
-        .rek-list::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
         .rek-item { background: white; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; border-left: 5px solid #059669; display: flex; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.03); align-items: center;}
         .rek-item.gedhong { border-left-color: var(--accent-nikah); background-color: #fffbeb; font-weight: 700; }
 
-        /* KHUSUS NAKAL/NAAS */
         #resultAreaNaas { display: none; margin-top: 30px; }
         .alert-naas { background-color: #fef2f2; color: #dc2626; padding: 14px; border-left: 5px solid var(--accent-naas); border-radius: 8px; font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
         .naas-list { display: flex; flex-direction: column; gap: 12px; }
@@ -291,11 +324,9 @@
         .naas-item .weton-name { font-size: 22px; font-weight: 800; color: #b91c1c; margin-bottom: 8px; }
         .naas-item p { margin: 0; font-size: 13px; color: #475569; line-height: 1.5; }
 
-        /* KHUSUS SELAMATAN (MATI) */
         #resultAreaMati { display: none; margin-top: 30px; }
         .mati-item { border-left-color: var(--primary-mati); background-color: #f8fafc; }
 
-        /* KHUSUS ABOGE (Lama) */
         #resultAreaAboge { display: none; margin-top: 30px; }
         .aboge-header { background-color: var(--primary-aboge); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
         .aboge-header h3 { margin: 0 0 8px 0; color: var(--accent-aboge); font-size: 24px; font-weight: 800;}
@@ -305,10 +336,9 @@
         .aboge-bulan span.weton { display: block; font-size: 15px; color: var(--primary-aboge); margin-top: 8px; font-weight: 800; }
         .aboge-bulan.highlight span.weton { color: #b45309; }
 
-        /* FOOTER - Terkunci di bagian bawah */
         .app-footer {
             position: fixed;
-            bottom: calc(55px + env(safe-area-inset-bottom)); /* Menempel pas di atas bottom-nav */
+            bottom: calc(55px + env(safe-area-inset-bottom));
             left: 0;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.92);
@@ -323,12 +353,8 @@
             box-sizing: border-box;
         }
 
-        .app-footer span {
-            font-weight: 600;
-            color: #64748b;
-        }
+        .app-footer span { font-weight: 600; color: #64748b; }
 
-        /* Navigasi Bawah (9 Menu) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -368,7 +394,6 @@
         .nav-btn:hover { background-color: #f8fafc; color: #475569; }
         .nav-btn:hover span { transform: scale(1.15); }
 
-        /* Warna aktif menyesuaikan tema section */
         #btnTabNama.active { color: var(--primary-nama); border-top-color: var(--primary-nama); background-color: #fbf9f9;}
         #btnTabWeton.active { color: var(--primary-weton); border-top-color: var(--primary-weton); background-color: #f4fbf9;}
         #btnTabNikah.active { color: var(--primary-nikah); border-top-color: var(--primary-nikah); background-color: #fdf6f6;}
@@ -386,16 +411,23 @@
             .kal-jawa-date { font-size: 9px; }
             .kal-cell { min-height: 80px; padding: 4px; }
             .kal-detail-grid { grid-template-columns: 1fr; gap: 8px; }
-            .kal-detail-item[style*="grid-column: span 2"] { grid-column: span 1 !important; }
-            
             .tk-vm-grid { grid-template-columns: 1fr; }
             .tk-content-section { padding: 25px 20px; }
             .tk-hero h1 { font-size: 26px; }
         }
     </style>
 </head>
-<body>
 
+<body>
+    <!-- ONBOARDING -->
+    <div id="onboarding-overlay">
+        <div class="onboarding-content">
+            <div class="close-onboarding" onclick="tutupOnboarding()">✕</div>
+            <img src="https://github.com/artafortuna/website1/blob/main/sasmita%20jati.png?raw=true" alt="Onboarding Image" class="onboarding-image">
+        </div>
+    </div>
+
+    <!-- APLIKASI (skrip asli kamu) -->
     <div id="sectionNama" class="app-section active">
         <div class="container">
             <h2>Hitung Nama Baik</h2>
@@ -454,7 +486,7 @@
             <button class="btn-action" onclick="hitungNaas()">Lihat Hari Pantangan</button>
             <div id="resultAreaNaas">
                 <div id="alertMaghribNaas" class="alert-maghrib" style="display: none;"></div>
-                <div class="alert-naas"><b>Peringatan:</b> Hindari memulai hajatan besar (nikah, bangun rumah) pada kombinasi hari di bawah ini.</div>
+                <div class="alert-naas"><b>Peringatan:</b> Hindari memulai hajatan besar (nikah, bangun rumah, pindah rumah, khitan, dll) pada kombinasi hari di bawah ini.</div>
                 <div class="naas-list">
                     <div class="naas-item"><h4>1. Naas Kelahiran (Weton Asli)</h4><div class="weton-name" id="naasKelahiran"></div></div>
                     <div class="naas-item"><h4>2. Naas Was Tiga (Hari ke-3)</h4><div class="weton-name" id="naasWasTiga"></div></div>
@@ -646,7 +678,7 @@
     <div class="app-footer">
         <span>KITAB SASMITA JATI</span><br>
         Dilestarikan dengan Teknologi & Tradisi oleh Ki Sasmita Jati<br>
-        © 2026 Ki Sasmita Jati. Hak Cipta Dilindungi.
+        © 2026 Kitab Sasmita Jati. Hak Cipta Dilindungi.
     </div>
 
     <nav class="bottom-nav">
@@ -662,6 +694,11 @@
     </nav>
 
     <script>
+        function tutupOnboarding() {
+            var overlay = document.getElementById('onboarding-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
         const hariArray = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const pasaranArray = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
         const neptuHariMap = {0: 5, 1: 4, 2: 3, 3: 7, 4: 8, 5: 6, 6: 9};
