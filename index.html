@@ -662,9 +662,6 @@
     </nav>
 
     <script>
-        // ==========================================
-        // DATA GLOBAL (HARI, PASARAN, BULAN) UNTUK HALAMAN 1-7
-        // ==========================================
         const hariArray = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const pasaranArray = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
         const neptuHariMap = {0: 5, 1: 4, 2: 3, 3: 7, 4: 8, 5: 6, 6: 9};
@@ -694,17 +691,13 @@
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('section' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
             document.getElementById('btnTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
-            
-            // Render Header khusus untuk tab Kalender jika dibuka
+
             if (tabId === 'kalender' && document.getElementById('gridHeaderKalender').innerHTML === '') {
                 renderHeaderKalender();
                 renderKalenderPro();
             }
         }
 
-        // ==========================================
-        // 1. NAMA
-        // ==========================================
         const neptuMapAksara = {'h':1,'d':1,'p':1,'m':1,'f':1,'v':1,'n':2,'t':2,'dh':2,'g':2,'c':3,'s':3,'j':3,'b':3,'z':3,'r':4,'w':4,'y':4,'th':4,'k':5,'l':5,'ny':5,'ng':5,'q':5,'':1};
         const maknaNama = {
             1: { gelar: "Sri (Sisa 1)", arti: "Sangat Baik. Diramalkan dilimpahi keselamatan dan rezeki." },
@@ -760,9 +753,6 @@
             document.getElementById('resultAreaNama').style.display = "block";
         }
 
-        // ==========================================
-        // 2. WETON
-        // ==========================================
         function hitungWeton() {
             const tgl = document.getElementById('tanggalInput').value, jam = document.getElementById('jamInput').value;
             if (!tgl) { alert("Pilih tanggal lahir!"); return; }
@@ -790,9 +780,6 @@
             document.getElementById('resultAreaWeton').style.display = "block";
         }
 
-        // ==========================================
-        // 3. NIKAH
-        // ==========================================
         const maknaNikah = {
             1: { gelar: "Sandang (Sisa 1)", arti: "Sangat Baik. Rezeki pakaian & pangan cukup." },
             2: { gelar: "Pangan (Sisa 2)", arti: "Sangat Baik. Tidak akan pernah kelaparan." },
@@ -832,9 +819,6 @@
             document.getElementById('resultAreaNikah').style.display = "block";
         }
 
-        // ==========================================
-        // 4. NAAS
-        // ==========================================
         function hitungNaas() {
             const tgl = document.getElementById('tglNaas').value, jam = document.getElementById('jamNaas').value;
             if (!tgl) { alert("Pilih tanggal lahir Anda!"); return; }
@@ -852,9 +836,6 @@
             document.getElementById('resultAreaNaas').style.display = "block";
         }
 
-        // ==========================================
-        // 5. MATI / SELAMATAN
-        // ==========================================
         function hitungSelamatan() {
             const tgl = document.getElementById('tglMati').value, jam = document.getElementById('jamMati').value;
             if (!tgl) { alert("Pilih tanggal wafat!"); return; }
@@ -898,9 +879,6 @@
             document.getElementById('resultAreaMati').style.display = "block";
         }
 
-        // ==========================================
-        // 6. ABOGE (Lama)
-        // ==========================================
         const tahunAbogeMap = {
             'Alip': { hari: 3, pasaran: 3, nama: 'Aboge (Rebo Wage)' },
             'Ehe': { hari: 0, pasaran: 2, nama: 'Ekatpon (Ahad Pon)' },
@@ -945,9 +923,6 @@
             document.getElementById('resultAreaAboge').style.display = 'block';
         }
 
-        // ==========================================
-        // 7. AKSARA JAWA PRO
-        // ==========================================
         function transliterasiKeJawa(input) {
             let str = input.replace(/E/g, 'é').toLowerCase()
                 .replace(/nj/g, 'Yj') 
@@ -1022,9 +997,6 @@
             }).catch(err => { alert("Gagal menyalin teks: " + err); });
         }
 
-        // ==========================================
-        // 8. KALENDER PRO
-        // ==========================================
         const kalNamaBulanJawa = ['Sura', 'Sapar', 'Mulud', 'Bakda Mulud', 'Jumadil Awal', 'Jumadil Akhir', 'Rejeb', 'Ruwah', 'Pasa', 'Sawal', 'Dulkangidah', 'Besar'];
         const kalWinduNames = ['Alip', 'Ehe', 'Jimawal', 'Je', 'Dal', 'Be', 'Wawu', 'Jimakhir']; 
         
@@ -1150,9 +1122,6 @@
             }
         }
 
-        // ==========================================
-        // INTEGRASI INDEXEDDB (MENYIMPAN INPUT HALAMAN 1-7)
-        // ==========================================
         const dbName = "PrimbonData";
         const storeName = "userInputs";
         let db;
@@ -1223,7 +1192,6 @@
                 }
             });
             
-            // Listener Aksara Input (Live Type)
             const aksaraInputEl = document.getElementById('aksaraInput');
             if (aksaraInputEl) {
                 aksaraInputEl.addEventListener('input', function() {
