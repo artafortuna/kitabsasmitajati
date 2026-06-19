@@ -21,8 +21,10 @@
             --primary-mati: #37474f; 
             --primary-aboge: #00838f; 
             --accent-aboge: #00acc1;
+            --primary-aksara: #455a64; /* Tema Baru untuk Aksara */
+            --accent-aksara: #607d8b;
             
-            --bg-color: #f7f5f0; /* Warna latar lebih hangat & bersih */
+            --bg-color: #f7f5f0; 
             --text-color: #2c3e50;
         }
 
@@ -32,7 +34,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            padding-bottom: 120px; /* Ruang ekstra untuk nav & footer */
+            padding-bottom: 120px; 
             box-sizing: border-box;
             min-height: 100vh;
         }
@@ -167,6 +169,39 @@
         #sectionAboge .btn-action { background-color: var(--primary-aboge); }
         #sectionAboge select:focus { border-color: var(--primary-aboge); box-shadow: 0 0 0 4px rgba(0,131,143,0.15); }
 
+        /* KHUSUS AKSARA (Tema Tambahan) */
+        #sectionAksara .container { border-top: 6px solid var(--primary-aksara); }
+        #sectionAksara h2 { color: var(--primary-aksara); }
+        #sectionAksara textarea:focus { border-color: var(--primary-aksara); box-shadow: 0 0 0 4px rgba(69,90,100,0.15); }
+        
+        .aksara-textarea {
+            width: 100%;
+            height: 100px;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 15px;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', inherit;
+            background-color: #f8fafc;
+            color: #1e293b;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        .aksara-output {
+            font-family: "Javanese Text", "Noto Sans Javanese", sans-serif;
+            font-size: 32px;
+            min-height: 100px;
+            padding: 15px;
+            background-color: #f1f5f9;
+            border-radius: 12px;
+            word-wrap: break-word;
+            border: 1px solid #e2e8f0;
+            margin-top: 5px;
+            color: #1e293b;
+            text-align: center;
+        }
+
         /* STYLING HASIL UMUM */
         .rincian-box { background-color: #f1f5f9; padding: 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; border: 1px solid #e2e8f0; }
         .hasil-card { padding: 20px; border-radius: 12px; text-align: center; color: white; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
@@ -245,7 +280,7 @@
             color: #64748b;
         }
 
-        /* Navigasi Bawah (6 Menu) */
+        /* Navigasi Bawah (7 Menu) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -269,7 +304,7 @@
             font-weight: 700;
             color: #94a3b8;
             cursor: pointer;
-            border-top: 4px solid transparent; /* Pindah garis aktif ke atas */
+            border-top: 4px solid transparent; 
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
@@ -289,6 +324,7 @@
         #btnTabNaas.active { color: var(--primary-naas); border-top-color: var(--primary-naas); background-color: #fbf7fc;}
         #btnTabMati.active { color: var(--primary-mati); border-top-color: var(--primary-mati); background-color: #f6f7f8;}
         #btnTabAboge.active { color: var(--primary-aboge); border-top-color: var(--primary-aboge); background-color: #f2fbfa;}
+        #btnTabAksara.active { color: var(--primary-aksara); border-top-color: var(--primary-aksara); background-color: #f4f6f7;}
     </style>
 </head>
 <body>
@@ -466,6 +502,27 @@
         </div>
     </div>
 
+    <div id="sectionAksara" class="app-section">
+        <div class="container">
+            <h2>Konversi Aksara Pro</h2>
+            <p class="subtitle">Mesin transliterasi dengan deteksi Pasangan & Sandhangan</p>
+            <div class="input-group">
+                <label>Ketik teks latin:</label>
+                <textarea id="aksaraInput" class="aksara-textarea" placeholder="Contoh: sigit, kraton, surabaya..."></textarea>
+                <span class="helper-text">
+                    <b>💡 Tips Pro:</b><br>
+                    • Ketik <b>e</b> kecil untuk e-pepet (contoh: s<b>e</b>gar).<br>
+                    • Ketik <b>E</b> besar / <b>é</b> untuk e-taling (contoh: l<b>E</b>l<b>E</b> / b<b>é</b>b<b>é</b>k).
+                </span>
+            </div>
+            <div class="input-group">
+                <label>Hasil Aksara Jawa:</label>
+                <div id="aksaraOutput" class="aksara-output"></div>
+                <button id="btnSalinAksara" class="btn-action" style="margin-top: 10px; background-color: var(--accent-aksara); padding: 12px; font-size: 14px;" onclick="salinAksara()">📋 Salin Hasil Aksara</button>
+            </div>
+        </div>
+    </div>
+
     <div class="app-footer">
         <span>Aplikasi Primbon Jawa Aboge</span><br>
         Dilestarikan dengan Teknologi & Tradisi oleh Ki Sasmita Jati<br>
@@ -479,6 +536,7 @@
         <button id="btnTabNaas" class="nav-btn" onclick="switchTab('naas')"><span>🕯️</span>Naas</button>
         <button id="btnTabMati" class="nav-btn" onclick="switchTab('mati')"><span>🕊️</span>Mati</button>
         <button id="btnTabAboge" class="nav-btn" onclick="switchTab('aboge')"><span>🌙</span>Aboge</button>
+        <button id="btnTabAksara" class="nav-btn" onclick="switchTab('aksara')"><span>✍️</span>Aksara</button>
     </nav>
 
     <script>
@@ -761,6 +819,106 @@
         }
 
         // ==========================================
+        // 7. AKSARA JAWA PRO (Engine Canggih)
+        // ==========================================
+        function transliterasiKeJawa(input) {
+            let str = input.replace(/E/g, 'é').toLowerCase()
+                .replace(/nj/g, 'Yj') 
+                .replace(/nc/g, 'Yc') 
+                .replace(/ng/g, 'N')
+                .replace(/ny/g, 'Y')
+                .replace(/th/g, 'T')
+                .replace(/dh/g, 'D');
+
+            const aksara = {
+                'h':'ꦲ', 'n':'ꦤ', 'c':'ꦕ', 'r':'ꦫ', 'k':'ꦏ',
+                'd':'ꦢ', 't':'ꦠ', 's':'ꦱ', 'w':'ꦮ', 'l':'ꦭ',
+                'p':'ꦥ', 'j':'ꦗ', 'y':'ꦪ', 'm':'ꦩ', 'g':'ꦒ',
+                'b':'ꦧ', 'T':'ꦛ', 'D':'ꦝ', 'Y':'ꦚ', 'N':'ꦔ'
+            };
+            const sandhangan = {
+                'a':'', 'i':'ꦶ', 'u':'ꦸ', 
+                'e':'ꦼ', 'x':'ꦼ', 
+                'é':'ꦺ', 'è':'ꦺ', 
+                'o':'ꦺꦴ'
+            };
+            const sigeg = { 'N':'ꦁ', 'r':'ꦂ', 'h':'ꦃ' }; 
+            const angka = {'0':'꧐','1':'꧑','2':'꧒','3':'꧓','4':'꧔','5':'꧕','6':'꧖','7':'꧗','8':'꧘','9':'꧙'};
+            const pangkon = '꧀';
+
+            let res = "";
+            let i = 0;
+            
+            while (i < str.length) {
+                let c = str[i];
+                let next1 = str[i+1];
+
+                if (aksara[c]) {
+                    if (next1 && sandhangan[next1] !== undefined) {
+                        res += aksara[c] + sandhangan[next1];
+                        i += 2;
+                    } else {
+                        let isSpecialSigeg = false;
+                        if (c === 'r' || c === 'h') isSpecialSigeg = true;
+                        if (c === 'N' && next1 !== 'g' && next1 !== 'k') isSpecialSigeg = true;
+
+                        if (isSpecialSigeg) {
+                            res += sigeg[c];
+                        } else {
+                            res += aksara[c] + pangkon;
+                        }
+                        i++;
+                    }
+                } else if (sandhangan[c] !== undefined) {
+                    res += aksara['h'] + sandhangan[c];
+                    i++;
+                } else if (angka[c]) {
+                    res += angka[c];
+                    i++;
+                } else {
+                    res += c;
+                    i++;
+                }
+            }
+            return res;
+        }
+
+        // FUNGSI UNTUK MENYALIN AKSARA KE CLIPBOARD
+        function salinAksara() {
+            const outputText = document.getElementById('aksaraOutput').innerText;
+            if (!outputText.trim()) {
+                alert("Belum ada teks aksara yang bisa disalin!");
+                return;
+            }
+            
+            navigator.clipboard.writeText(outputText).then(() => {
+                const btn = document.getElementById('btnSalinAksara');
+                const originalText = btn.innerHTML;
+                
+                // Ubah gaya tombol saat sukses
+                btn.innerHTML = "✅ Berhasil Disalin!";
+                btn.style.backgroundColor = "#059669"; // Warna hijau sukses
+                
+                // Kembalikan seperti semula setelah 2 detik
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.style.backgroundColor = "var(--accent-aksara)";
+                }, 2000);
+            }).catch(err => {
+                alert("Gagal menyalin teks: " + err);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const aksaraInputEl = document.getElementById('aksaraInput');
+            if (aksaraInputEl) {
+                aksaraInputEl.addEventListener('input', function() {
+                    document.getElementById('aksaraOutput').innerHTML = transliterasiKeJawa(this.value);
+                });
+            }
+        });
+
+        // ==========================================
         // INTEGRASI INDEXEDDB (MENYIMPAN INPUT)
         // ==========================================
         const dbName = "PrimbonData";
@@ -795,7 +953,7 @@
                 'namaInput', 'tanggalInput', 'jamInput', 
                 'tglSuami', 'tglIstri', 'tglNikah', 
                 'tglNaas', 'jamNaas', 
-                'tglMati', 'jamMati', 'tahunAbogeSelect'
+                'tglMati', 'jamMati', 'tahunAbogeSelect', 'aksaraInput'
             ];
             
             const transaction = db.transaction([storeName], "readonly");
@@ -806,7 +964,12 @@
                 request.onsuccess = function() {
                     if (request.result !== undefined) {
                         const el = document.getElementById(id);
-                        if (el) el.value = request.result;
+                        if (el) {
+                            el.value = request.result;
+                            if(id === 'aksaraInput') {
+                                document.getElementById('aksaraOutput').innerHTML = transliterasiKeJawa(request.result);
+                            }
+                        }
                     }
                 };
             });
@@ -817,7 +980,7 @@
                 'namaInput', 'tanggalInput', 'jamInput', 
                 'tglSuami', 'tglIstri', 'tglNikah', 
                 'tglNaas', 'jamNaas', 
-                'tglMati', 'jamMati', 'tahunAbogeSelect'
+                'tglMati', 'jamMati', 'tahunAbogeSelect', 'aksaraInput'
             ];
             
             inputIds.forEach(id => {
