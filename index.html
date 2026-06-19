@@ -21,8 +21,14 @@
             --primary-mati: #37474f; 
             --primary-aboge: #00838f; 
             --accent-aboge: #00acc1;
-            --primary-aksara: #455a64; /* Tema Baru untuk Aksara */
+            --primary-aksara: #455a64; 
             --accent-aksara: #607d8b;
+            --primary-kalender: #0284c7;
+            --accent-kalender: #38bdf8;
+            
+            /* Tema Baru untuk Halaman 9 (Tentang) */
+            --primary-tentang: #0f766e;
+            --accent-tentang: #115e59;
             
             --bg-color: #f7f5f0; 
             --text-color: #2c3e50;
@@ -138,7 +144,7 @@
             transform: translateY(1px);
         }
 
-        /* Pewarnaan Spesifik Berdasarkan Tema (Hover state diperhalus) */
+        /* Pewarnaan Spesifik Berdasarkan Tema */
         #sectionNama .container { border-top: 6px solid var(--primary-nama); }
         #sectionNama h2 { color: var(--primary-nama); }
         #sectionNama .btn-action { background-color: var(--primary-nama); }
@@ -169,40 +175,74 @@
         #sectionAboge .btn-action { background-color: var(--primary-aboge); }
         #sectionAboge select:focus { border-color: var(--primary-aboge); box-shadow: 0 0 0 4px rgba(0,131,143,0.15); }
 
-        /* KHUSUS AKSARA (Tema Tambahan) */
         #sectionAksara .container { border-top: 6px solid var(--primary-aksara); }
         #sectionAksara h2 { color: var(--primary-aksara); }
         #sectionAksara textarea:focus { border-color: var(--primary-aksara); box-shadow: 0 0 0 4px rgba(69,90,100,0.15); }
         
-        .aksara-textarea {
-            width: 100%;
-            height: 100px;
-            padding: 14px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 15px;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', inherit;
-            background-color: #f8fafc;
-            color: #1e293b;
-            transition: all 0.3s ease;
-            resize: vertical;
-        }
-        .aksara-output {
-            font-family: "Javanese Text", "Noto Sans Javanese", sans-serif;
-            font-size: 32px;
-            min-height: 100px;
-            padding: 15px;
-            background-color: #f1f5f9;
-            border-radius: 12px;
-            word-wrap: break-word;
-            border: 1px solid #e2e8f0;
-            margin-top: 5px;
-            color: #1e293b;
-            text-align: center;
-        }
+        /* KHUSUS HALAMAN 8: KALENDER */
+        #sectionKalender { max-width: 900px; }
+        #sectionKalender .container { border-top: 6px solid var(--primary-kalender); padding: 25px 20px;}
+        #sectionKalender h2 { color: var(--primary-kalender); }
+        #sectionKalender .btn-action { background-color: var(--primary-kalender); }
+        #sectionKalender select:focus, #sectionKalender input:focus { border-color: var(--primary-kalender); box-shadow: 0 0 0 4px rgba(2,132,199,0.15); }
+        
+        /* CSS Tambahan Kalender */
+        .kalender-header-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 8px; }
+        .kalender-day-name { background: #1e293b; color: white; text-align: center; padding: 10px 4px; border-radius: 8px; font-weight: 700; font-size: 13px; }
+        .kalender-day-name.sunday { background: #b91c1c; }
+        .kalender-grid-body { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+        .kalender-cell { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; min-height: 90px; position: relative; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+        .kalender-cell:hover { border-color: var(--primary-kalender); background: #f0f9ff; transform: scale(1.02); box-shadow: 0 4px 12px rgba(2,132,199,0.15); }
+        .kalender-cell.empty { background: transparent; border: none; cursor: default; box-shadow: none; transform: none;}
+        .kal-date-masehi { font-size: 20px; font-weight: 800; text-align: right; color: #334155; }
+        .kal-date-masehi.sunday { color: #b91c1c; }
+        .kal-jawa-info { font-size: 11px; font-weight: 700; color: #b45309; }
+        .kal-jawa-date { font-size: 11px; color: #475569; margin-top: 4px; font-weight: 600; line-height: 1.3; }
+        .kal-btn-detail { margin-top: 6px; font-size: 10px; background: #cbd5e1; color: #0f172a; padding: 4px; border-radius: 4px; text-align: center; }
 
-        /* STYLING HASIL UMUM */
+        /* Modal / Popup Detail Kalender */
+        .kal-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 2000; }
+        .kal-modal-box { background: white; width: 95%; max-width: 450px; border-radius: 16px; padding: 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); animation: slideUp 0.3s ease; }
+        .kal-modal-header { font-size: 20px; font-weight: 800; color: var(--primary-kalender); margin-bottom: 5px; text-align: center;}
+        .kal-modal-subheader { font-size: 14px; color: #64748b; text-align: center; margin-bottom: 20px;}
+        .kal-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;}
+        .kal-detail-item { background: #f1f5f9; padding: 12px; border-radius: 8px; border-left: 4px solid var(--primary-kalender);}
+        .kal-detail-item span { display: block; font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase;}
+        .kal-detail-item strong { font-size: 13px; color: #1e293b; line-height: 1.4;}
+        .kal-close-btn { width: 100%; background: #ef4444; color: white; padding: 14px; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; margin-top: 10px; cursor:pointer;}
+
+        /* CSS KHUSUS HALAMAN 9: TENTANG KAMI */
+        #sectionTentang { max-width: 900px; padding-bottom: 20px; margin-top: 2vh;}
+        .tk-hero { text-align: center; padding: 45px 20px; background-color: var(--primary-tentang); color: white; border-radius: 20px; margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .tk-hero h1 { font-size: 32px; font-weight: 800; margin: 0 0 10px 0; letter-spacing: -0.5px;}
+        .tk-hero p { font-size: 15px; color: #ccfbf1; max-width: 600px; margin: 0 auto; line-height: 1.5; font-style: italic;}
+        
+        .tk-content-section { background: white; border-radius: 16px; padding: 35px 30px; margin-bottom: 25px; box-shadow: 0 6px 20px rgba(0,0,0,0.04); }
+        .tk-content-section h2 { color: #0f172a; font-size: 22px; font-weight: 800; margin-top: 0; margin-bottom: 20px; border-bottom: 3px solid #e2e8f0; padding-bottom: 10px; display: inline-block; text-align: left; width: 100%;}
+        .tk-content-section p { font-size: 14.5px; color: #475569; line-height: 1.7; margin-bottom: 15px; }
+
+        .tk-vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .tk-vm-box { background: #f8fafc; padding: 25px; border-radius: 12px; border-left: 5px solid var(--primary-tentang); }
+        .tk-vm-box h3 { margin-top: 0; color: var(--primary-tentang); font-size: 18px; font-weight: 800; text-align: left;}
+        .tk-vm-box p, .tk-vm-box ul { font-size: 14px; color: #475569; line-height: 1.6; margin:0; }
+        .tk-vm-box ul { padding-left: 18px; }
+        .tk-vm-box li { margin-bottom: 10px; }
+
+        .tk-team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; margin-top: 20px; }
+        .tk-team-card { text-align: center; padding: 25px 15px; border: 1px solid #e2e8f0; border-radius: 12px; transition: transform 0.3s; background: #f8fafc;}
+        .tk-team-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px rgba(0,0,0,0.05); border-color: var(--primary-tentang);}
+        .tk-team-photo { width: 90px; height: 90px; background-color: #cbd5e1; border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; color: #64748b; font-size: 11px; overflow: hidden; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);}
+        .tk-team-card h4 { margin: 0; color: #1e293b; font-size: 16px; font-weight: 700;}
+        .tk-team-card p { margin: 6px 0 0 0; font-size: 13px; color: #64748b; }
+
+        .tk-contact-list { list-style: none; padding: 0; margin: 0; }
+        .tk-contact-list li { margin-bottom: 12px; font-size: 15px; color: #475569;}
+        .tk-contact-list strong { display: inline-block; width: 110px; color: #0f172a; }
+
+        /* STYLING HASIL UMUM & AKSARA */
+        .aksara-textarea { width: 100%; height: 100px; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; box-sizing: border-box; font-family: 'Plus Jakarta Sans', inherit; background-color: #f8fafc; color: #1e293b; transition: all 0.3s ease; resize: vertical; }
+        .aksara-output { font-family: "Javanese Text", "Noto Sans Javanese", sans-serif; font-size: 32px; min-height: 100px; padding: 15px; background-color: #f1f5f9; border-radius: 12px; word-wrap: break-word; border: 1px solid #e2e8f0; margin-top: 5px; color: #1e293b; text-align: center; }
+
         .rincian-box { background-color: #f1f5f9; padding: 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; line-height: 1.6; border: 1px solid #e2e8f0; }
         .hasil-card { padding: 20px; border-radius: 12px; text-align: center; color: white; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .hasil-card h3 { margin: 0 0 10px 0; font-size: 24px; font-weight: 800; }
@@ -255,7 +295,7 @@
         #resultAreaMati { display: none; margin-top: 30px; }
         .mati-item { border-left-color: var(--primary-mati); background-color: #f8fafc; }
 
-        /* KHUSUS ABOGE */
+        /* KHUSUS ABOGE (Lama) */
         #resultAreaAboge { display: none; margin-top: 30px; }
         .aboge-header { background-color: var(--primary-aboge); color: white; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 20px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
         .aboge-header h3 { margin: 0 0 8px 0; color: var(--accent-aboge); font-size: 24px; font-weight: 800;}
@@ -280,7 +320,7 @@
             color: #64748b;
         }
 
-        /* Navigasi Bawah (7 Menu) */
+        /* Navigasi Bawah (9 Menu) */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -290,17 +330,20 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
+            overflow-x: auto; 
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom);
         }
+        .bottom-nav::-webkit-scrollbar { height: 0px; background: transparent; }
 
         .nav-btn {
             flex: 1;
-            padding: 12px 0;
+            min-width: 60px; 
+            padding: 10px 0;
             border: none;
             background: none;
-            font-size: 11px; 
+            font-size: 10px; 
             font-weight: 700;
             color: #94a3b8;
             cursor: pointer;
@@ -309,11 +352,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             font-family: inherit;
         }
         
-        .nav-btn span { font-size: 18px; transition: transform 0.3s ease; }
+        .nav-btn span { font-size: 16px; transition: transform 0.3s ease; }
         .nav-btn:hover { background-color: #f8fafc; color: #475569; }
         .nav-btn:hover span { transform: scale(1.15); }
 
@@ -325,14 +368,30 @@
         #btnTabMati.active { color: var(--primary-mati); border-top-color: var(--primary-mati); background-color: #f6f7f8;}
         #btnTabAboge.active { color: var(--primary-aboge); border-top-color: var(--primary-aboge); background-color: #f2fbfa;}
         #btnTabAksara.active { color: var(--primary-aksara); border-top-color: var(--primary-aksara); background-color: #f4f6f7;}
+        #btnTabKalender.active { color: var(--primary-kalender); border-top-color: var(--primary-kalender); background-color: #f0f9ff;}
+        #btnTabTentang.active { color: var(--primary-tentang); border-top-color: var(--primary-tentang); background-color: #f0fdfa;}
+
+        @media (max-width: 768px) {
+            .kal-day-name { font-size: 11px; padding: 6px 2px; }
+            .kal-date-masehi { font-size: 16px; }
+            .kal-jawa-info { font-size: 10px; }
+            .kal-jawa-date { font-size: 9px; }
+            .kal-cell { min-height: 80px; padding: 4px; }
+            .kal-detail-grid { grid-template-columns: 1fr; gap: 8px; }
+            .kal-detail-item[style*="grid-column: span 2"] { grid-column: span 1 !important; }
+            
+            .tk-vm-grid { grid-template-columns: 1fr; }
+            .tk-content-section { padding: 25px 20px; }
+            .tk-hero h1 { font-size: 26px; }
+        }
     </style>
 </head>
 <body>
 
     <div id="sectionNama" class="app-section active">
         <div class="container">
-            <h2>Hitung Nama Baik</h2>
-            <p class="subtitle">Hitung nama dan otomatis saran nama baik</p>
+            <h2>Hitung Nama Primbon</h2>
+            <p class="subtitle">Prediksi nasib & otomatis saran nama baik</p>
             <div class="input-group">
                 <label>Masukkan Nama Lengkap:</label>
                 <input type="text" id="namaInput" placeholder="Contoh: Bima Santoso" autocomplete="off">
@@ -340,15 +399,8 @@
             <button class="btn-action" onclick="hitungNama()">Hitung Makna Nama</button>
             <div id="resultAreaNama">
                 <div class="rincian-box" id="rincianTeks"></div>
-                <div class="hasil-card" id="hasilCard">
-                    <h3 id="hasilGelar"></h3>
-                    <p id="hasilDeskripsi"></p>
-                </div>
-                <div id="saranArea">
-                    <h4>💡 Saran Tambahan Nama</h4>
-                    <p>Sematkan salah satu kata ini agar hitungannya menjadi baik:</p>
-                    <div class="saran-grid" id="saranGrid"></div>
-                </div>
+                <div class="hasil-card" id="hasilCard"><h3 id="hasilGelar"></h3><p id="hasilDeskripsi"></p></div>
+                <div id="saranArea"><h4>💡 Saran Tambahan Nama</h4><p>Sematkan salah satu kata ini agar hitungannya menjadi baik:</p><div class="saran-grid" id="saranGrid"></div></div>
             </div>
         </div>
     </div>
@@ -356,23 +408,13 @@
     <div id="sectionWeton" class="app-section">
         <div class="container">
             <h2>Hitung Weton Kelahiran</h2>
-            <p class="subtitle">Jumlah nilai hari dan pasaran Jawa</p>
-            <div class="input-group">
-                <label>Tanggal Lahir Masehi:</label>
-                <input type="date" id="tanggalInput">
-            </div>
-            <div class="input-group">
-                <label>Jam Lahir (Opsional):</label>
-                <input type="time" id="jamInput" value="12:00">
-                <span class="helper-text">Penting: Jika lahir setelah pukul 18:00 (Maghrib), Weton otomatis maju ke hari Jawa berikutnya.</span>
-            </div>
+            <p class="subtitle">Akurat dengan penyesuaian waktu Maghrib</p>
+            <div class="input-group"><label>Tanggal Lahir Masehi:</label><input type="date" id="tanggalInput"></div>
+            <div class="input-group"><label>Jam Lahir (Opsional):</label><input type="time" id="jamInput" value="12:00"><span class="helper-text">Penting: Jika lahir setelah pukul 18:00 (Maghrib), Weton otomatis maju ke hari Jawa berikutnya.</span></div>
             <button class="btn-action" onclick="hitungWeton()">Lihat Weton Saya</button>
             <div id="resultAreaWeton">
                 <div id="alertMaghrib" class="alert-maghrib" style="display: none;"></div>
-                <div class="weton-card hasil-card">
-                    <h3 id="wetonResult">Senin Legi</h3>
-                    <div class="neptu-details" id="neptuResult"></div>
-                </div>
+                <div class="weton-card hasil-card"><h3 id="wetonResult"></h3><div class="neptu-details" id="neptuResult"></div></div>
                 <div class="watak-box" id="watakResult"></div>
             </div>
         </div>
@@ -380,67 +422,35 @@
 
     <div id="sectionNikah" class="app-section">
         <div class="container">
-            <h2>Hari Baik Nikah/Bangun Nikah</h2>
-            <p class="subtitle">Hitungan Hari Baik dan Rekomendasi Tanggal</p>
-            <div class="input-group">
-                <label>Tanggal Lahir Calon Suami:</label>
-                <input type="date" id="tglSuami">
-            </div>
-            <div class="input-group">
-                <label>Tanggal Lahir Calon Istri:</label>
-                <input type="date" id="tglIstri">
-            </div>
-            <div class="input-group">
-                <label>Rencana Tanggal Menikah:</label>
-                <input type="date" id="tglNikah">
-            </div>
+            <h2>Hari Baik Nikah</h2>
+            <p class="subtitle">Hitungan Pancasuda & Rekomendasi Tanggal</p>
+            <div class="input-group"><label>Tanggal Lahir Calon Suami:</label><input type="date" id="tglSuami"></div>
+            <div class="input-group"><label>Tanggal Lahir Calon Istri:</label><input type="date" id="tglIstri"></div>
+            <div class="input-group"><label>Rencana Tanggal Menikah:</label><input type="date" id="tglNikah"></div>
             <button class="btn-action" onclick="hitungNikah()">Cek Kecocokan Hari</button>
             <div id="resultAreaNikah">
                 <div class="pasangan-box" id="pasanganTeks"></div>
                 <div class="rincian-box" id="rincianNikah"></div>
-                <div class="hasil-card" id="hasilCardNikah">
-                    <h3 id="hasilGelarNikah"></h3>
-                    <p id="hasilDeskripsiNikah"></p>
-                </div>
-                <div id="rekArea">
-                    <h4 id="judulRek">Rekomendasi Hari Baik di Bulan...</h4>
-                    <div class="rek-list" id="rekList"></div>
-                </div>
+                <div class="hasil-card" id="hasilCardNikah"><h3 id="hasilGelarNikah"></h3><p id="hasilDeskripsiNikah"></p></div>
+                <div id="rekArea"><h4 id="judulRek"></h4><div class="rek-list" id="rekList"></div></div>
             </div>
         </div>
     </div>
 
     <div id="sectionNaas" class="app-section">
         <div class="container">
-            <h2>Cek Hari Naas/Apes/Sial</h2>
-            <p class="subtitle">Peringatan spiritual untuk pantangan segala hajatan</p>
-            <div class="input-group">
-                <label>Tanggal Lahir Anda:</label>
-                <input type="date" id="tglNaas">
-            </div>
-            <div class="input-group">
-                <label>Jam Lahir (Opsional):</label>
-                <input type="time" id="jamNaas" value="12:00">
-            </div>
+            <h2>Cek Hari Naas</h2>
+            <p class="subtitle">Alarm spiritual untuk pantangan hajatan</p>
+            <div class="input-group"><label>Tanggal Lahir Anda:</label><input type="date" id="tglNaas"></div>
+            <div class="input-group"><label>Jam Lahir (Opsional):</label><input type="time" id="jamNaas" value="12:00"></div>
             <button class="btn-action" onclick="hitungNaas()">Lihat Hari Pantangan</button>
             <div id="resultAreaNaas">
                 <div id="alertMaghribNaas" class="alert-maghrib" style="display: none;"></div>
-                <div class="alert-naas">
-                    <b>Peringatan:</b> Hindari memulai hajatan besar (nikah, bangun rumah, pindah rumah, renovasi rumah, khitan, dll) pada kombinasi hari di bawah ini.
-                </div>
+                <div class="alert-naas"><b>Peringatan:</b> Hindari memulai hajatan besar (nikah, bangun rumah) pada kombinasi hari di bawah ini.</div>
                 <div class="naas-list">
-                    <div class="naas-item">
-                        <h4>1. Naas Kelahiran (Weton Asli)</h4>
-                        <div class="weton-name" id="naasKelahiran"></div>
-                    </div>
-                    <div class="naas-item">
-                        <h4>2. Naas Was Tiga (Hari ke-3)</h4>
-                        <div class="weton-name" id="naasWasTiga"></div>
-                    </div>
-                    <div class="naas-item">
-                        <h4>3. Naas Was Papat (Hari ke-4)</h4>
-                        <div class="weton-name" id="naasWasPapat"></div>
-                    </div>
+                    <div class="naas-item"><h4>1. Naas Kelahiran (Weton Asli)</h4><div class="weton-name" id="naasKelahiran"></div></div>
+                    <div class="naas-item"><h4>2. Naas Was Tiga (Hari ke-3)</h4><div class="weton-name" id="naasWasTiga"></div></div>
+                    <div class="naas-item"><h4>3. Naas Was Papat (Hari ke-4)</h4><div class="weton-name" id="naasWasPapat"></div></div>
                 </div>
             </div>
         </div>
@@ -448,24 +458,14 @@
 
     <div id="sectionMati" class="app-section">
         <div class="container">
-            <h2>Hitung Hari Selamatan</h2>
-            <p class="subtitle">Selamatan Peringatan Orang Meninggal Lengkap</p>
-            <div class="input-group">
-                <label>Tanggal Wafat (Meninggal):</label>
-                <input type="date" id="tglMati">
-            </div>
-            <div class="input-group">
-                <label>Jam Wafat (Opsional):</label>
-                <input type="time" id="jamMati" value="12:00">
-                <span class="helper-text">Penting: Jika wafat setelah Maghrib (18:00), otomatis masuk hitungan hari berikutnya.</span>
-            </div>
+            <h2>Hitung Selamatan</h2>
+            <p class="subtitle">Peringatan Berjangka & Estimasi Haul Otomatis</p>
+            <div class="input-group"><label>Tanggal Wafat (Meninggal):</label><input type="date" id="tglMati"></div>
+            <div class="input-group"><label>Jam Wafat (Opsional):</label><input type="time" id="jamMati" value="12:00"><span class="helper-text">Penting: Jika wafat setelah Maghrib (18:00), otomatis masuk hitungan hari berikutnya.</span></div>
             <button class="btn-action" onclick="hitungSelamatan()">Hitung Hari Selamatan</button>
             <div id="resultAreaMati">
                 <div id="alertMaghribMati" class="alert-maghrib" style="display: none;"></div>
-                <div class="rincian-box" style="text-align: center; font-size: 15px;">
-                    Tanggal Geblag (Hari ke-1):<br>
-                    <b id="geblagTeks" style="font-size: 18px; color: var(--primary-mati);"></b>
-                </div>
+                <div class="rincian-box" style="text-align: center; font-size: 15px;">Tanggal Geblag (Hari ke-1):<br><b id="geblagTeks" style="font-size: 18px; color: var(--primary-mati);"></b></div>
                 <div class="rek-list" id="listSelamatan" style="max-height: 400px;"></div>
             </div>
         </div>
@@ -473,30 +473,21 @@
 
     <div id="sectionAboge" class="app-section">
         <div class="container">
-            <h2>Kalender Aboge</h2>
-            <p class="subtitle">Penentu Tanggal 1 Bulan Jawa</p>
+            <h2>Siklus Aboge</h2>
+            <p class="subtitle">Siklus Windu Penentu 1 Sura, Pasa, & Sawal</p>
             <div class="input-group">
                 <label>Pilih Tahun Jawa (Siklus Windu):</label>
                 <select id="tahunAbogeSelect">
-                    <option value="Alip">1. Tahun Alip (Aboge)</option>
-                    <option value="Ehe">2. Tahun Ehe (Ekatpon)</option>
-                    <option value="Jimawal">3. Tahun Jimawal (Walmahpon)</option>
-                    <option value="Je">4. Tahun Je (Jesoing)</option>
-                    <option value="Dal">5. Tahun Dal (Daltugi)</option>
-                    <option value="Be">6. Tahun Be (Bemisgi)</option>
-                    <option value="Wawu">7. Tahun Wawu (Wunenwon)</option>
-                    <option value="Jimakhir">8. Tahun Jimakhir (Kirmahge)</option>
+                    <option value="Alip">1. Tahun Alip (Aboge)</option><option value="Ehe">2. Tahun Ehe (Ekatpon)</option>
+                    <option value="Jimawal">3. Tahun Jimawal (Walmahpon)</option><option value="Je">4. Tahun Je (Jesoing)</option>
+                    <option value="Dal">5. Tahun Dal (Daltugi)</option><option value="Be">6. Tahun Be (Bemisgi)</option>
+                    <option value="Wawu">7. Tahun Wawu (Wunenwon)</option><option value="Jimakhir">8. Tahun Jimakhir (Kirmahge)</option>
                 </select>
-                <span class="helper-text">Pilih tahun untuk membedah jatuh hari pasaran di tanggal 1 pada seluruh 12 bulan Jawa.</span>
+                <span class="helper-text">Pilih tahun untuk membedah jatuh hari pasaran di tanggal 1 pada seluruh 12 bulan Hijriah/Jawa.</span>
             </div>
-            
-            <button class="btn-action" onclick="hitungAboge()">Bedah Rumus Aboge</button>
-            
+            <button class="btn-action" onclick="hitungAbogeLama()">Bedah Rumus Aboge</button>
             <div id="resultAreaAboge">
-                <div class="aboge-header">
-                    <h3 id="namaTahunAboge">Tahun Alip</h3>
-                    <span id="rumusAwalAboge" style="font-size:14px; opacity: 0.9;">1 Sura: Rebo Wage</span>
-                </div>
+                <div class="aboge-header"><h3 id="namaTahunAboge"></h3><span id="rumusAwalAboge" style="font-size:14px; opacity: 0.9;"></span></div>
                 <div class="aboge-grid" id="abogeGrid"></div>
             </div>
         </div>
@@ -504,22 +495,135 @@
 
     <div id="sectionAksara" class="app-section">
         <div class="container">
-            <h2>Konversi Aksara Jawa</h2>
-            <p class="subtitle">Mengubah kata/kalimat latin menjadi aksara Jawa</p>
+            <h2>Konversi Aksara Pro</h2>
+            <p class="subtitle">Mesin transliterasi dengan deteksi Pasangan & Sandhangan</p>
             <div class="input-group">
                 <label>Ketik teks latin:</label>
                 <textarea id="aksaraInput" class="aksara-textarea" placeholder="Contoh: sigit, kraton, surabaya..."></textarea>
-                <span class="helper-text">
-                    <b>💡 Tips Pro:</b><br>
-                    • Ketik <b>e</b> kecil untuk e-pepet (contoh: s<b>e</b>gar).<br>
-                    • Ketik <b>E</b> besar / <b>é</b> untuk e-taling (contoh: l<b>E</b>l<b>E</b> / b<b>é</b>b<b>é</b>k).
-                </span>
+                <span class="helper-text"><b>💡 Tips Pro:</b><br>• Ketik <b>e</b> kecil untuk e-pepet (contoh: s<b>e</b>gar).<br>• Ketik <b>E</b> besar / <b>é</b> untuk e-taling (contoh: l<b>E</b>l<b>E</b> / b<b>é</b>b<b>é</b>k).</span>
             </div>
             <div class="input-group">
                 <label>Hasil Aksara Jawa:</label>
                 <div id="aksaraOutput" class="aksara-output"></div>
-                <button id="btnSalinAksara" class="btn-action" style="margin-top: 10px; background-color: var(--accent-aksara); padding: 12px; font-size: 14px;" onclick="salinAksara()">📋 Salin Hasil Konversi Aksara Jawa</button>
+                <button id="btnSalinAksara" class="btn-action" style="margin-top: 10px; background-color: var(--accent-aksara); padding: 12px; font-size: 14px;" onclick="salinAksara()">📋 Salin Hasil Aksara</button>
             </div>
+        </div>
+    </div>
+
+    <div id="sectionKalender" class="app-section">
+        <div class="container">
+            <h2>Kalender Aboge Sasmita Jati</h2>
+            <p class="subtitle">Akurasi Pakem Primbon Jawa (1900 - Tak Terhingga)</p>
+            <div class="input-group">
+                <label>Pilih Bulan & Tahun:</label>
+                <div style="display:flex; gap:10px;">
+                    <select id="bulanInputKalender" style="flex:2;">
+                        <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option><option value="3">April</option>
+                        <option value="4">Mei</option><option value="5">Juni</option><option value="6">Juli</option><option value="7">Agustus</option>
+                        <option value="8">September</option><option value="9">Oktober</option><option value="10">November</option><option value="11">Desember</option>
+                    </select>
+                    <input type="number" id="tahunInputKalender" value="2026" min="1900" style="flex:1;">
+                </div>
+            </div>
+            <button class="btn-action" onclick="renderKalenderPro()">Lihat Kalender</button>
+
+            <div class="kalender-header-grid" id="gridHeaderKalender" style="margin-top:20px;"></div>
+            <div class="kalender-grid-body" id="calendarGridKalender"></div>
+        </div>
+    </div>
+
+    <div class="kal-modal-overlay" id="modalDetailKalender" onclick="closeModalKalender(event)">
+        <div class="kal-modal-box" onclick="event.stopPropagation()">
+            <div class="kal-modal-header" id="kalModalMasehi">-</div>
+            <div class="kal-modal-subheader" id="kalModalJawa">-</div>
+            
+            <div class="kal-detail-grid">
+                <div class="kal-detail-item"><span>Neptu Total</span><strong id="kNeptu">-</strong></div>
+                <div class="kal-detail-item"><span>Saat Hari</span><strong id="kSaat">-</strong></div>
+                <div class="kal-detail-item"><span>Naga Hari (Arah Buruk)</span><strong id="kNaga">-</strong></div>
+                <div class="kal-detail-item"><span>Arah Baik (Keberuntungan)</span><strong id="kArah">-</strong></div>
+                
+                <div class="kal-detail-item" style="grid-column: span 2; text-align: center; background:#fffbeb; border-color:#f59e0b;">
+                    <span>Tahun Jawa</span>
+                    <strong id="kTahunJawa">-</strong>
+                </div>
+            </div>
+            <button class="kal-close-btn" onclick="closeModalKalender(true)">Tutup Rincian</button>
+        </div>
+    </div>
+
+    <div id="sectionTentang" class="app-section">
+        <div class="tk-hero">
+            <h1>KITAB SASMITA JATI</h1>
+            <p>"Menyambung Tradisi Leluhur, Membaca Tanda Alam di Era Digital"</p>
+        </div>
+
+        <div class="tk-content-section">
+            <h2>Tentang Kami</h2>
+            <p>Selamat datang di Kitab Sasmita Jati, sebuah platform pelestarian kearifan lokal persembahan PT Arta Makmur Jaya Sentosa di bawah asuhan Ki Sasmita Jati. Kami berdedikasi untuk menjembatani tradisi leluhur Nusantara dengan kecanggihan teknologi digital. Layanan kami mencakup perhitungan pakem Primbon dan Kalender Jawa secara komprehensif dan akurat. Mulai dari perhitungan Weton, kecocokan Pancasuda untuk hari pernikahan, deteksi Hari Naas, siklus Selamatan, hingga Kalender Aboge. Misi utama kami adalah menjaga agar warisan budaya Jawa tetap hidup, relevan, dan mudah diakses, sehingga dapat terus menjadi kompas panduan yang membawa harmoni, keselamatan, dan ketenteraman hidup bagi generasi masa kini.</p>
+            <p>Platform ini lahir dari sebuah keprihatinan melihat semakin pudarnya pemahaman generasi muda terhadap ilmu titen (membaca tanda alam) dan tata penanggalan Jawa. Kami menyadari bahwa perhitungan Primbon yang otentik seperti sistem kalender Aboge murni dan pakem Pancasuda memiliki tingkat kerumitan matematis yang tinggi dan rentan keliru jika dihitung secara manual. Oleh karena itu, melalui dedikasi dan riset mendalam, kami mengonversi naskah-naskah kuno tersebut ke dalam algoritma digital yang 100% presisi. Kami berharap kemudahan akses ini dapat menggeser stigma bahwa Primbon adalah hal yang tertinggal zaman, melainkan sebuah mahakarya pedoman Nusantara yang patut diaplikasikan dalam ritme kehidupan modern.</p>
+        </div>
+
+        <div class="tk-content-section">
+            <h2>Visi & Misi</h2>
+            <div class="tk-vm-grid">
+                <div class="tk-vm-box">
+                    <h3>Visi</h3>
+                    <p>Menjaga pelita kearifan tanah Jawa agar tak pernah padam ditelan zaman. Visi besar kami adalah menjadikan ilmu titen dan pedoman Primbon sebagai kompas abadi bagi masyarakat modern; menuntun setiap individu untuk mencapai keselarasan alam, kedamaian batin, dan keselamatan hidup demi mewujudkan Memayu Hayuning Bhuwana (memperindah dan menjaga harmoni dunia).</p>
+                </div>
+                <div class="tk-vm-box">
+                    <h3>Misi</h3>
+                    <ul>
+                        <li>Mendigitalisasi naskah, manuskrip, dan pakem perhitungan Primbon Jawa kuno ke dalam sistem algoritma modern yang 100% presisi dan dapat diandalkan.</li>
+                        <li>Menyediakan layanan komputasi penanggalan Jawa terlengkap dalam satu platform agar masyarakat dapat menentukan hari baik, weton, dan pedoman hidup lainnya secara praktis dan instan.</li>
+                        <li>Mengedukasi serta mendekatkan generasi muda dengan kearifan lokal Nusantara agar tradisi luhur leluhur tetap lestari dan tidak hilang tertelan zaman.</li>
+                        <li>Terus mengembangkan dan memutakhirkan teknologi aplikasi tanpa pernah mengubah keaslian pakem (aturan baku) peninggalan para leluhur tanah Jawa.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tk-content-section">
+            <h2>Sejarah Singkat</h2>
+            <p><strong>2002</strong> - Bermula dari keprihatinan melihat semakin pudarnya pemahaman generasi muda terhadap ilmu titen dan tata penanggalan Jawa, Ki Sasmita Jati menginisiasi disusunnya Kitab Sasmita Jati. Beliau menyadari bahwa perhitungan Primbon murni (terutama kalender Aboge dan Pancasuda) memiliki kerumitan matematis yang tinggi dan rentan keliru jika dihitung secara manual. Motivasi awal kami sederhana namun ambisius: mendigitalisasi manuskrip serta pakem kuno Nusantara ke dalam sebuah algoritma cerdas, agar pedoman kearifan lokal ini bisa diakses dengan mudah, presisi, dan tidak hilang tergerus zaman.</p>
+            <p><strong>2026</strong> - Kini, gagasan tersebut telah bertransformasi secara sempurna menjadi Website dan Aplikasi Kitab Sasmita Jati. Kami berhasil mencapai tonggak sejarah penting dengan mengintegrasikan delapan fitur krusial. Mulai dari perhitungan Weton, Hari Baik Nikah, Hari Naas, perhitungan Selamatan (Haul), hingga Kalender Aboge pertama yang akurat tanpa batas waktu. Platform kami kini tidak sekadar menjadi alat hitung digital, melainkan telah menjadi pusat rujukan tepercaya bagi masyarakat modern yang ingin mengambil keputusan penting secara selaras dengan pedoman leluhur dan harmoni alam.</p>
+        </div>
+
+        <div class="tk-content-section">
+            <h2>Tim Kami</h2>
+            <p style="margin-bottom: 0;">Mengenal lebih dekat orang-orang di balik layar platform ini.</p>
+            <div class="tk-team-grid">
+                <div class="tk-team-card">
+                    <div class="tk-team-photo">Foto 1</div>
+                    <h4>Ki Sasmita Jati</h4>
+                    <p>Pemilik dan Penyusun</p>
+                </div>
+                <div class="tk-team-card">
+                    <div class="tk-team-photo">Foto 2</div>
+                    <h4>Nama Anggota 2</h4>
+                    <p>Jabatan / Posisi</p>
+                </div>
+                <div class="tk-team-card">
+                    <div class="tk-team-photo">Foto 3</div>
+                    <h4>Nama Anggota 3</h4>
+                    <p>Jabatan / Posisi</p>
+                </div>
+                <div class="tk-team-card">
+                    <div class="tk-team-photo">Foto 4</div>
+                    <h4>Nama Anggota 4</h4>
+                    <p>Jabatan / Posisi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="tk-content-section">
+            <h2>Hubungi Kami</h2>
+            <p>Jika Anda memiliki pertanyaan, saran, atau ingin menjalin kerja sama, jangan ragu untuk menghubungi kami melalui saluran di bawah ini:</p>
+            <ul class="tk-contact-list">
+                <li><strong>Email</strong> : kisasmitajati@gmail.com</li>
+                <li><strong>Telepon/WA</strong> : 081255271717</li>
+                <li><strong>Alamat</strong> : Padepokan Sasmita Jati</li>
+            </ul>
         </div>
     </div>
 
@@ -537,11 +641,13 @@
         <button id="btnTabMati" class="nav-btn" onclick="switchTab('mati')"><span>🕊️</span>Mati</button>
         <button id="btnTabAboge" class="nav-btn" onclick="switchTab('aboge')"><span>🌙</span>Aboge</button>
         <button id="btnTabAksara" class="nav-btn" onclick="switchTab('aksara')"><span>✍️</span>Aksara</button>
+        <button id="btnTabKalender" class="nav-btn" onclick="switchTab('kalender')"><span>📅</span>Kalender</button>
+        <button id="btnTabTentang" class="nav-btn" onclick="switchTab('tentang')"><span>ℹ️</span>Tentang</button>
     </nav>
 
     <script>
         // ==========================================
-        // DATA GLOBAL (HARI, PASARAN, BULAN)
+        // DATA GLOBAL (HARI, PASARAN, BULAN) UNTUK HALAMAN 1-7
         // ==========================================
         const hariArray = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         const pasaranArray = ['Legi', 'Pahing', 'Pon', 'Wage', 'Kliwon'];
@@ -555,7 +661,6 @@
             const dayOfWeek = new Date(utcMs).getUTCDay(); 
             const daysSinceEpoch = Math.floor(utcMs / 86400000);
             const pasaranIndex = (((daysSinceEpoch % 5) + 5) % 5 + 3) % 5;
-
             return {
                 dayIndex: dayOfWeek, pasaranIndex: pasaranIndex,
                 namaHari: hariArray[dayOfWeek], namaPasaran: pasaranArray[pasaranIndex],
@@ -573,6 +678,12 @@
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('section' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
             document.getElementById('btnTab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).classList.add('active');
+            
+            // Render Header khusus untuk tab Kalender jika dibuka
+            if (tabId === 'kalender' && document.getElementById('gridHeaderKalender').innerHTML === '') {
+                renderHeaderKalender();
+                renderKalenderPro();
+            }
         }
 
         // ==========================================
@@ -772,7 +883,7 @@
         }
 
         // ==========================================
-        // 6. ABOGE
+        // 6. ABOGE (Lama)
         // ==========================================
         const tahunAbogeMap = {
             'Alip': { hari: 3, pasaran: 3, nama: 'Aboge (Rebo Wage)' },
@@ -800,7 +911,7 @@
             { bulan: "12. Besar / Haji", rumusNama: "Jah-pat-ji (4-1)", offsetHari: 3, offsetPasaran: 0 }
         ];
 
-        function hitungAboge() {
+        function hitungAbogeLama() {
             const tahunKey = document.getElementById('tahunAbogeSelect').value;
             const infoTahun = tahunAbogeMap[tahunKey];
 
@@ -819,7 +930,7 @@
         }
 
         // ==========================================
-        // 7. AKSARA JAWA PRO (Engine Canggih)
+        // 7. AKSARA JAWA PRO
         // ==========================================
         function transliterasiKeJawa(input) {
             let str = input.replace(/E/g, 'é').toLowerCase()
@@ -883,43 +994,148 @@
             return res;
         }
 
-        // FUNGSI UNTUK MENYALIN AKSARA KE CLIPBOARD
         function salinAksara() {
             const outputText = document.getElementById('aksaraOutput').innerText;
-            if (!outputText.trim()) {
-                alert("Belum ada teks aksara yang bisa disalin!");
-                return;
-            }
-            
+            if (!outputText.trim()) { alert("Belum ada teks aksara yang bisa disalin!"); return; }
             navigator.clipboard.writeText(outputText).then(() => {
                 const btn = document.getElementById('btnSalinAksara');
                 const originalText = btn.innerHTML;
-                
-                // Ubah gaya tombol saat sukses
                 btn.innerHTML = "✅ Berhasil Disalin!";
-                btn.style.backgroundColor = "#059669"; // Warna hijau sukses
-                
-                // Kembalikan seperti semula setelah 2 detik
-                setTimeout(() => {
-                    btn.innerHTML = originalText;
-                    btn.style.backgroundColor = "var(--accent-aksara)";
-                }, 2000);
-            }).catch(err => {
-                alert("Gagal menyalin teks: " + err);
+                btn.style.backgroundColor = "#059669"; 
+                setTimeout(() => { btn.innerHTML = originalText; btn.style.backgroundColor = "var(--accent-aksara)"; }, 2000);
+            }).catch(err => { alert("Gagal menyalin teks: " + err); });
+        }
+
+        // ==========================================
+        // 8. KALENDER PRO
+        // ==========================================
+        const kalNamaBulanJawa = ['Sura', 'Sapar', 'Mulud', 'Bakda Mulud', 'Jumadil Awal', 'Jumadil Akhir', 'Rejeb', 'Ruwah', 'Pasa', 'Sawal', 'Dulkangidah', 'Besar'];
+        const kalWinduNames = ['Alip', 'Ehe', 'Jimawal', 'Je', 'Dal', 'Be', 'Wawu', 'Jimakhir']; 
+        
+        const KAL_ANCHOR_MS = Date.UTC(2021, 7, 11); 
+        const KAL_WINDU_DAYS = 2835; 
+        const kalYearOffsets = [0, 354, 709, 1063, 1417, 1772, 2126, 2480]; 
+        const kalIsLeap = [false, true, false, false, true, false, false, true]; 
+
+        const kalNagaMap = { 
+            0: 'Ngalor, ngulon', 1: 'Ngetan, ngulon, ngalor', 2: 'Ngidul ngetan, ngulon', 
+            3: 'Ngulon, ngidul', 4: 'Ngulon, ngalor', 5: 'Ngetan, ngulon, ngidul', 6: 'Ngidul, ngetan, ngalor' 
+        };
+        const kalArahMap = { 
+            0: 'Ngidul ngulon', 1: 'Ngidul', 2: 'Ngalor', 
+            3: 'Ngalor ngetan', 4: 'Ngidul ngetan', 5: 'Ngalor', 6: 'Ngulon' 
+        };
+        const kalSaatMap = {
+            0: '06.00', 1: '08.00-09.00', 2: '10.00-11.11', 
+            3: '06.00-12.00', 4: '08.00-09.00', 5: '09.00-10.00', 6: '08.00-09.00'
+        };
+
+        function getKalAboge(utcDate) {
+            let diffMs = utcDate.getTime() - KAL_ANCHOR_MS;
+            let dayDiff = Math.floor(diffMs / 86400000);
+            let winduCycles = Math.floor(dayDiff / KAL_WINDU_DAYS);
+            let daysInWindu = dayDiff - (winduCycles * KAL_WINDU_DAYS);
+            let yearIdx = 0;
+            for (let i = 7; i >= 0; i--) { if (daysInWindu >= kalYearOffsets[i]) { yearIdx = i; break; } }
+            let daysInYear = daysInWindu - kalYearOffsets[yearIdx];
+            let isLeap = kalIsLeap[yearIdx];
+            const monthOffsets = isLeap ? [0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 325] : [0, 30, 59, 89, 118, 148, 177, 207, 236, 266, 295, 324];
+            let monthIdx = 0;
+            for (let i = 11; i >= 0; i--) { if (daysInYear >= monthOffsets[i]) { monthIdx = i; break; } }
+            let javaDay = daysInYear - monthOffsets[monthIdx] + 1;
+            let javaYear = 1955 + (winduCycles * 8) + yearIdx;
+            return { javaDay, javaMonth: kalNamaBulanJawa[monthIdx], javaYear, namaTahun: kalWinduNames[yearIdx] };
+        }
+
+        function getKalSiklus(utcDate) {
+            const daysSinceEpoch = Math.floor(utcDate.getTime() / 86400000);
+            let dWeek = new Date(utcDate).getUTCDay(); 
+            let pasaranIdx = (((daysSinceEpoch % 5) + 5) % 5 + 3) % 5; 
+            let neptuTot = neptuHariMap[dWeek] + neptuPasaranMap[pasaranIdx];
+            return {
+                hariIdx: dWeek, namaHari: hariArray[dWeek],
+                pasIdx: pasaranIdx, namaPasaran: pasaranArray[pasaranIdx],
+                totalNeptu: neptuTot,
+                nagaHari: kalNagaMap[dWeek], arahBaik: kalArahMap[dWeek], saatHari: kalSaatMap[dWeek]
+            };
+        }
+
+        let globalKalData = {}; 
+
+        function renderHeaderKalender() {
+            const h = document.getElementById('gridHeaderKalender');
+            h.innerHTML = '';
+            hariArray.forEach((hari, i) => {
+                h.innerHTML += `<div class="kalender-day-name ${i===0?'sunday':''}">${hari}</div>`;
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const aksaraInputEl = document.getElementById('aksaraInput');
-            if (aksaraInputEl) {
-                aksaraInputEl.addEventListener('input', function() {
-                    document.getElementById('aksaraOutput').innerHTML = transliterasiKeJawa(this.value);
-                });
+        function renderKalenderPro() {
+            const bln = parseInt(document.getElementById('bulanInputKalender').value);
+            const thn = parseInt(document.getElementById('tahunInputKalender').value);
+            if(thn < 1900) { alert("Minimal tahun 1900 ke atas!"); return; }
+
+            const grid = document.getElementById('calendarGridKalender');
+            grid.innerHTML = '';
+            globalKalData = {};
+
+            const firstDay = new Date(thn, bln, 1).getDay();
+            const daysInMonth = new Date(thn, bln + 1, 0).getDate();
+
+            for(let i=0; i<firstDay; i++) {
+                grid.innerHTML += `<div class="kalender-cell empty"></div>`;
             }
-        });
+
+            for(let d=1; d<=daysInMonth; d++) {
+                let utcTarget = new Date(Date.UTC(thn, bln, d));
+                let aboge = getKalAboge(utcTarget);
+                let siklus = getKalSiklus(utcTarget);
+
+                let isSunday = siklus.hariIdx === 0;
+                let divId = `kal_${d}`;
+
+                globalKalData[divId] = {
+                    masehi: `${d} ${namaBulan[bln]} ${thn}`,
+                    jawaStr: `${siklus.namaHari} ${siklus.namaPasaran}, ${aboge.javaDay} ${aboge.javaMonth} ${aboge.javaYear} J`,
+                    neptu: `${siklus.totalNeptu}`,
+                    naga: siklus.nagaHari,
+                    arah: siklus.arahBaik,
+                    saat: siklus.saatHari,
+                    tahunJawa: `${aboge.namaTahun}`
+                };
+
+                grid.innerHTML += `
+                    <div class="kalender-cell" onclick="openModalKalender('${divId}')">
+                        <div class="kal-date-masehi ${isSunday?'sunday':''}">${d}</div>
+                        <div>
+                            <div class="kal-jawa-info">${siklus.namaPasaran}</div>
+                            <div class="kal-jawa-date">${aboge.javaDay} ${aboge.javaMonth}</div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function openModalKalender(id) {
+            const data = globalKalData[id];
+            document.getElementById('kalModalMasehi').innerText = data.masehi;
+            document.getElementById('kalModalJawa').innerText = data.jawaStr;
+            document.getElementById('kNeptu').innerText = data.neptu;
+            document.getElementById('kSaat').innerText = data.saat;
+            document.getElementById('kNaga').innerText = data.naga;
+            document.getElementById('kArah').innerText = data.arah;
+            document.getElementById('kTahunJawa').innerText = data.tahunJawa;
+            document.getElementById('modalDetailKalender').style.display = 'flex';
+        }
+
+        function closeModalKalender(e) {
+            if (e === true || e.target.id === 'modalDetailKalender') {
+                document.getElementById('modalDetailKalender').style.display = 'none';
+            }
+        }
 
         // ==========================================
-        // INTEGRASI INDEXEDDB (MENYIMPAN INPUT)
+        // INTEGRASI INDEXEDDB (MENYIMPAN INPUT HALAMAN 1-7)
         // ==========================================
         const dbName = "PrimbonData";
         const storeName = "userInputs";
@@ -990,6 +1206,14 @@
                     el.addEventListener('input', (e) => saveInputToDB(id, e.target.value));
                 }
             });
+            
+            // Listener Aksara Input (Live Type)
+            const aksaraInputEl = document.getElementById('aksaraInput');
+            if (aksaraInputEl) {
+                aksaraInputEl.addEventListener('input', function() {
+                    document.getElementById('aksaraOutput').innerHTML = transliterasiKeJawa(this.value);
+                });
+            }
         }
     </script>
 </body>
