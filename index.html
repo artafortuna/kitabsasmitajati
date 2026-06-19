@@ -40,7 +40,7 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            padding-bottom: 120px; 
+            padding-bottom: 160px; /* Ditinggikan agar tidak tertutup oleh footer fixed */
             box-sizing: border-box;
             min-height: 100vh;
         }
@@ -282,7 +282,7 @@
         .rek-item { background: white; padding: 12px 15px; border-radius: 8px; margin-bottom: 10px; font-size: 14px; border-left: 5px solid #059669; display: flex; justify-content: space-between; box-shadow: 0 2px 5px rgba(0,0,0,0.03); align-items: center;}
         .rek-item.gedhong { border-left-color: var(--accent-nikah); background-color: #fffbeb; font-weight: 700; }
 
-        /* KHUSUS NAAS */
+        /* KHUSUS NAKAL/NAAS */
         #resultAreaNaas { display: none; margin-top: 30px; }
         .alert-naas { background-color: #fef2f2; color: #dc2626; padding: 14px; border-left: 5px solid var(--accent-naas); border-radius: 8px; font-size: 14px; margin-bottom: 20px; line-height: 1.6; }
         .naas-list { display: flex; flex-direction: column; gap: 12px; }
@@ -305,14 +305,22 @@
         .aboge-bulan span.weton { display: block; font-size: 15px; color: var(--primary-aboge); margin-top: 8px; font-weight: 800; }
         .aboge-bulan.highlight span.weton { color: #b45309; }
 
-        /* FOOTER */
+        /* FOOTER - Terkunci di bagian bawah */
         .app-footer {
-            max-width: 550px;
-            margin: 40px auto 0 auto;
+            position: fixed;
+            bottom: calc(55px + env(safe-area-inset-bottom)); /* Menempel pas di atas bottom-nav */
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
             text-align: center;
-            font-size: 13px;
+            font-size: 11px;
             color: #94a3b8;
-            line-height: 1.6;
+            line-height: 1.4;
+            padding: 8px 0;
+            z-index: 999;
+            border-top: 1px solid #e2e8f0;
+            box-sizing: border-box;
         }
 
         .app-footer span {
@@ -500,7 +508,7 @@
             <div class="input-group">
                 <label>Ketik teks latin:</label>
                 <textarea id="aksaraInput" class="aksara-textarea" placeholder="Contoh: sigit, kraton, surabaya..."></textarea>
-                <span class="helper-text"><b>💡 Tips Pro:</b><br>• Ketik <b>e</b> kecil untuk e-pepet (contoh: s<b>e</b>gar).<br>• Ketik <b>E</b> besar / <b>é</b> untuk e-taling (contoh: l<b>E</b>l<b>E</b> / b<b>é</b>b<b>é</b>k).</span>
+                <span class="helper-text"><b>💡 Tips Pro:</b><br>• Ketik <b>e</b> kecil untuk e-pepet (contoh: s<b>e</b>gar).<br>• Ketik <b>E</b> besar / <b>é</b> untuk e-taling (contoh: l<b>E</b>l<b>E</b> / b<b>é</b>b<b>ék</b>).</span>
             </div>
             <div class="input-group">
                 <label>Hasil Aksara Jawa:</label>
@@ -594,23 +602,31 @@
             <p style="margin-bottom: 0;">Mengenal lebih dekat orang-orang di balik layar platform ini.</p>
             <div class="tk-team-grid">
                 <div class="tk-team-card">
-                    <div class="tk-team-photo">Foto 1</div>
+                    <div class="tk-team-photo">
+                        <img src="https://github.com/artafortuna/website1/blob/main/sasmita%20jati.png?raw=true" alt="Ki Sasmita Jati" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
                     <h4>Ki Sasmita Jati</h4>
-                    <p>Pemilik dan Penyusun</p>
+                    <p>Pemilik/Penyusun</p>
                 </div>
                 <div class="tk-team-card">
-                    <div class="tk-team-photo">Foto 2</div>
-                    <h4>Nama Anggota 2</h4>
+                    <div class="tk-team-photo">
+                        <img src="https://github.com/artafortuna/website1/blob/main/sasmita%20jati.png?raw=true" alt="Anggota 2" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <h4>Anggota 2</h4>
                     <p>Jabatan / Posisi</p>
                 </div>
                 <div class="tk-team-card">
-                    <div class="tk-team-photo">Foto 3</div>
-                    <h4>Nama Anggota 3</h4>
+                    <div class="tk-team-photo">
+                        <img src="https://github.com/artafortuna/website1/blob/main/sasmita%20jati.png?raw=true" alt="Anggota 3" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <h4>Anggota 3</h4>
                     <p>Jabatan / Posisi</p>
                 </div>
                 <div class="tk-team-card">
-                    <div class="tk-team-photo">Foto 4</div>
-                    <h4>Nama Anggota 4</h4>
+                    <div class="tk-team-photo">
+                        <img src="https://github.com/artafortuna/website1/blob/main/sasmita%20jati.png?raw=true" alt="Anggota 4" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <h4>Anggota 4</h4>
                     <p>Jabatan / Posisi</p>
                 </div>
             </div>
@@ -621,7 +637,7 @@
             <p>Jika Anda memiliki pertanyaan, saran, atau ingin menjalin kerja sama, jangan ragu untuk menghubungi kami melalui saluran di bawah ini:</p>
             <ul class="tk-contact-list">
                 <li><strong>Email</strong> : kisasmitajati@gmail.com</li>
-                <li><strong>WhatsApp</strong> : +6281 2552 71717 (hanya chat, tidak menerima panggilan telepon)</li>
+                <li><strong>WhatsApp</strong> : +6281 2552 71717 (Chat saja, tidak menerima telepon)</li>
                 <li><strong>Alamat</strong> : Padepokan Sasmita Jati</li>
             </ul>
         </div>
